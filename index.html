@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="IRPA Digital Governance System"
+  >
+
+  <title>IRPA Digital Governance System</title>
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="logo">
+        IRPA
+      </div>
+
+      <div>
+        <strong>
+          IRPA Digital Governance
+        </strong>
+
+        <span>
+          Board Governance &amp; Decision Management
+        </span>
+      </div>
+
+    </div>
+
+    <div class="connection-status">
+
+      <span
+        id="connectionDot"
+        class="status-dot"
+      ></span>
+
+      <span id="connectionText">
+        Initializing
+      </span>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- LOGIN -->
+
+    <section
+      id="loginScreen"
+      class="login-screen"
+    >
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <p class="eyebrow">
+            IMPROVEMENT OF RANGELAND IN PASTORAL AREAS
+          </p>
+
+          <h1>
+            Digital Board
+            <br>
+            Governance System
+          </h1>
+
+          <p class="lead">
+
+            A secure, traceable and auditable digital
+            workspace for IRPA Board meetings,
+            resolutions, voting, actions, documents
+            and governance records.
+
+          </p>
+
+          <button
+            id="googleSignIn"
+            class="btn primary"
+          >
+            Sign in with Google
+          </button>
+
+          <p
+            id="loginMessage"
+            class="message"
+          ></p>
+
+        </div>
+
+
+        <div class="governance-card">
+
+          <p class="eyebrow">
+            GOVERNANCE ACCESS
+          </p>
+
+          <h2>
+            Role-Based Control
+          </h2>
+
+          <div class="role">
+            <strong>Admin</strong>
+            <span>Full control</span>
+          </div>
+
+          <div class="role">
+            <strong>Executive Secretary</strong>
+            <span>Governance administration</span>
+          </div>
+
+          <div class="role">
+            <strong>Board Member</strong>
+            <span>Participation</span>
+          </div>
+
+          <div class="role">
+            <strong>Member</strong>
+            <span>Own profile &amp; comments</span>
+          </div>
+
+          <div class="role protected">
+            <strong>Audit Logs</strong>
+            <span>Protected evidence</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- APPLICATION -->
+
+    <section
+      id="appScreen"
+      class="hidden"
+    >
+
+      <div class="dashboard-header">
+
+        <div>
+
+          <p class="eyebrow">
+            IRPA GOVERNANCE WORKSPACE
+          </p>
+
+          <h2>
+            Board Dashboard
+          </h2>
+
+        </div>
+
+        <div class="user-area">
+
+          <div id="userIdentity">
+            Loading...
+          </div>
+
+          <div
+            id="userRole"
+            class="role-badge"
+          >
+            Checking role...
+          </div>
+
+          <button
+            id="signOut"
+            class="btn small"
+          >
+            Sign out
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-grid">
+
+        <button
+          class="module"
+          data-module="meetings"
+        >
+          <span class="module-icon">M</span>
+          <strong>Meetings</strong>
+          <small>
+            Schedule and manage Board meetings
+          </small>
+        </button>
+
+
+        <button
+          class="module"
+          data-module="resolutions"
+        >
+          <span class="module-icon">R</span>
+          <strong>Resolutions</strong>
+          <small>
+            Board decisions and resolutions
+          </small>
+        </button>
+
+
+        <button
+          class="module"
+          data-module="votes"
+        >
+          <span class="module-icon">V</span>
+          <strong>Voting</strong>
+          <small>
+            Secure participation and voting
+          </small>
+        </button>
+
+
+        <button
+          class="module"
+          data-module="actions"
+        >
+          <span class="module-icon">A</span>
+          <strong>Actions</strong>
+          <small>
+            Track decisions and responsibilities
+          </small>
+        </button>
+
+
+        <button
+          class="module"
+          data-module="documents"
+        >
+          <span class="module-icon">D</span>
+          <strong>Documents</strong>
+          <small>
+            Controlled governance documents
+          </small>
+        </button>
+
+
+        <button
+          class="module"
+          data-module="reports"
+        >
+          <span class="module-icon">P</span>
+          <strong>Reports</strong>
+          <small>
+            Governance and performance reports
+          </small>
+        </button>
+
+
+        <button
+          class="module audit-module"
+          data-module="auditLogs"
+        >
+          <span class="module-icon">L</span>
+          <strong>Audit Logs</strong>
+          <small>
+            Protected governance evidence
+          </small>
+
+          <em>
+            IMMUTABLE
+          </em>
+
+        </button>
+
+
+        <button
+          class="module"
+          data-module="members"
+        >
+          <span class="module-icon">U</span>
+          <strong>Members</strong>
+          <small>
+            Membership and user profiles
+          </small>
+        </button>
+
+      </div>
+
+
+      <div
+        id="workspace"
+        class="workspace"
+      >
+
+        <div class="workspace-placeholder">
+
+          <h3>
+            Select a governance module
+          </h3>
+
+          <p>
+            Choose Meetings, Resolutions, Voting,
+            Actions, Documents, Reports or Members.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <strong>
+      IRPA Digital Governance System
+    </strong>
+
+    <span>•</span>
+
+    Tanzania
+
+    <span>•</span>
+
+    &copy; 2026 IRPA
+
+  </footer>
+
+
+  <script
+    type="module"
+    src="./app.js"
+  ></script>
+
+</body>
+</html>
