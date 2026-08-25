@@ -1,0 +1,187 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    /* =====================================================
+       HELPER FUNCTIONS
+       ===================================================== */
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin"
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == "active";
+    }
+    function isExecutiveSecretary() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "executive_secretary"
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == "active";
+    }
+    function isBoardMember() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "board_member"
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == "active";
+    }
+    function isMember() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "member"
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == "active";
+    }
+    /* =====================================================
+       USERS
+       ===================================================== */
+    match /users/{userId} {
+      /* Users may view their own account.
+         Admin has full control. */
+      allow read: if isAdmin()
+                  || (signedIn() && request.auth.uid == userId);
+      /* Admin creates, edits and deletes users. */
+      allow create, update, delete: if isAdmin();
+      /* Users cannot change their own role/status/approval
+         through the client. */
+      allow update: if signedIn()
+                    && request.auth.uid == userId
+                    && request.resource.data.role == resource.data.role
+                    && request.resource.data.status == resource.data.status
+                    && request.resource.data.approved == resource.data.approved;
+    }
+    /* =====================================================
+       MEMBERS
+       ===================================================== */
+    match /members/{memberId} {
+      /* Authenticated users may view approved membership data.
+         Admin has unrestricted access. */
+      allow read: if signedIn();
+      /* Only Admin registers/removes members. */
+      allow create, delete: if isAdmin();
+      /* Admin can edit anybody.
+         A member may edit only their own permitted information. */
+      allow update: if isAdmin()
+                    || (
+                      signedIn()
+                      && request.auth.uid == memberId
+                      && request.resource.data.role == resource.data.role
+                      && request.resource.data.status == resource.data.status
+                    );
+    }
+    /* =====================================================
+       RESOLUTIONS
+       ===================================================== */
+    match /resolutions/{resolutionId} {
+      /* Governance participants may read resolutions. */
+      allow read: if signedIn();
+      /* Admin and Executive Secretary may create resolutions. */
+      allow create: if isAdmin() || isExecutiveSecretary();
+      /* Admin has full control.
+         Executive Secretary can administer resolutions. */
+      allow update, delete: if isAdmin() || isExecutiveSecretary();
+    }
+    /* =====================================================
+       VOTES
+       ===================================================== */
+    match /votes/{voteId} {
+      /* Authenticated governance participants can see vote
+         records as permitted by the application. */
+      allow read: if signedIn();
+
+      /* A user can create their own vote. */
+      allow create: if signedIn()
+                    && request.resource.data.userId == request.auth.uid;
+      /* A user cannot change another user's vote. */
+      allow update: if isAdmin();
+
+      /* Votes cannot normally be deleted. */
+      allow delete: if isAdmin();
+    }
+    /* =====================================================
+       COMMENTS
+       ===================================================== */
+    match /comments/{commentId} {
+      /* Authenticated users can view comments. */
+      allow read: if signedIn();
+      /* Users can create their own comments. */
+      allow create: if signedIn()
+                    && request.resource.data.authorUid == request.auth.uid;
+      /* Users can edit ONLY their own comments.
+         Admin may manage comments if necessary. */
+      allow update: if isAdmin()
+                    || (
+                      signedIn()
+                      && resource.data.authorUid == request.auth.uid
+                      && request.resource.data.authorUid == resource.data.authorUid
+                    );
+      /* Users cannot delete another person's comment. */
+      allow delete: if isAdmin()
+                    || (
+                      signedIn()
+                      && resource.data.authorUid == request.auth.uid
+                    );
+    }
+    /* =====================================================
+       OPEN ACTIONS
+       ===================================================== */
+    match /actions/{actionId} {
+      /* Governance participants may view actions. */
+      allow read: if signedIn();
+
+      /* Admin and Executive Secretary manage actions. */
+      allow create, update, delete: if isAdmin()
+                                     || isExecutiveSecretary();
+    }
+    /* =====================================================
+       MEETINGS
+       ===================================================== */
+
+    match /meetings/{meetingId} {
+
+      allow read: if signedIn();
+
+      allow create, update, delete: if isAdmin()
+                                     || isExecutiveSecretary();
+    }
+    /* =====================================================
+       DOCUMENTS
+       ===================================================== */
+   match /documents/{documentId} {
+
+      allow read: if signedIn();
+
+      allow create, update, delete: if isAdmin()
+                                     || isExecutiveSecretary();
+    }
+    /* =====================================================
+       REPORTS
+       ===================================================== */
+    match /reports/{reportId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin()
+                                     || isExecutiveSecretary();
+    }
+    /* =====================================================
+       AUDIT LOGS
+       ===================================================== */
+    match /auditLogs/{auditId} {
+      /*
+       * CRITICAL SECURITY CONTROL:
+       *
+       * No client-side user can create, update or delete
+       * audit records.
+       *
+       * This prevents an administrator or other user from
+       * erasing evidence of an action.
+       */
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+    /* =====================================================
+       DEFAULT DENY
+       ===================================================== */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
