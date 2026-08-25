@@ -1,0 +1,527 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #091017;
+  --surface: #101a23;
+  --surface2: #14222d;
+  --border: #263743;
+  --text: #e9eff5;
+  --muted: #93a6b6;
+  --gold: #d9a441;
+  --green: #55c27a;
+  --danger: #d66b6b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+
+/* TOPBAR */
+
+.topbar {
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 5vw;
+
+  background: #0d161e;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: var(--gold);
+  color: #111;
+
+  font-weight: 900;
+}
+
+.brand strong {
+  display: block;
+  font-size: 15px;
+}
+
+.brand span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.connection-status {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.status-dot {
+  display: inline-block;
+
+  width: 8px;
+  height: 8px;
+
+  margin-right: 7px;
+
+  border-radius: 50%;
+
+  background: var(--gold);
+}
+
+
+/* MAIN */
+
+.container {
+  width: min(1180px, 100%);
+
+  margin: 0 auto;
+
+  padding:
+    60px 24px
+    80px;
+}
+
+
+/* LOGIN */
+
+.hero {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.3fr)
+    minmax(320px, .8fr);
+
+  gap: 55px;
+
+  align-items: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+
+  color: var(--gold);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: .14em;
+}
+
+.hero h1 {
+  margin: 10px 0 20px;
+
+  font-size:
+    clamp(38px, 5vw, 64px);
+
+  line-height: 1.02;
+
+  letter-spacing: -.04em;
+}
+
+.lead {
+  max-width: 720px;
+
+  color: #aebdca;
+
+  font-size: 18px;
+
+  line-height: 1.65;
+}
+
+
+/* CARD */
+
+.governance-card {
+  padding: 26px;
+
+  background: var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 15px;
+}
+
+.governance-card h2 {
+  margin: 4px 0 20px;
+}
+
+.role {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 15px 0;
+
+  border-top:
+    1px solid var(--border);
+
+  font-size: 13px;
+}
+
+.role span {
+  color: var(--muted);
+  text-align: right;
+}
+
+.role.protected {
+  border-top-color: #72592c;
+}
+
+
+/* BUTTONS */
+
+.btn {
+  border: 0;
+
+  border-radius: 9px;
+
+  padding: 13px 19px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  opacity: .92;
+}
+
+.primary {
+  margin-top: 25px;
+
+  background: var(--gold);
+
+  color: #111;
+}
+
+.small {
+  padding: 8px 12px;
+
+  background: var(--surface2);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text);
+
+  font-size: 12px;
+}
+
+.message {
+  min-height: 22px;
+
+  margin-top: 14px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* APPLICATION */
+
+.hidden {
+  display: none !important;
+}
+
+.dashboard-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 25px;
+
+  margin-bottom: 25px;
+}
+
+.dashboard-header h2 {
+  margin: 4px 0;
+}
+
+.user-area {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+}
+
+#userIdentity {
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.role-badge {
+  padding: 7px 11px;
+
+  border:
+    1px solid #465966;
+
+  border-radius: 999px;
+
+  color: #c0ced9;
+
+  font-size: 11px;
+}
+
+
+/* DASHBOARD */
+
+.dashboard-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 14px;
+}
+
+.module {
+  position: relative;
+
+  min-height: 160px;
+
+  padding: 22px;
+
+  text-align: left;
+
+  background: var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  transition:
+    transform .15s ease,
+    border-color .15s ease;
+}
+
+.module:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    #536876;
+}
+
+.module-icon {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 8px;
+
+  background: var(--surface2);
+
+  color: var(--gold);
+
+  font-weight: 900;
+}
+
+.module strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 15px;
+}
+
+.module small {
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.audit-module {
+  border-color:
+    #72592c;
+}
+
+.audit-module em {
+  position: absolute;
+
+  right: 12px;
+  top: 12px;
+
+  padding: 4px 6px;
+
+  border:
+    1px solid #72592c;
+
+  border-radius: 5px;
+
+  color: var(--gold);
+
+  font-size: 8px;
+
+  font-style: normal;
+
+  font-weight: 800;
+}
+
+
+/* WORKSPACE */
+
+.workspace {
+  min-height: 250px;
+
+  margin-top: 20px;
+
+  padding: 25px;
+
+  background: var(--surface);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+}
+
+.workspace-placeholder {
+  text-align: center;
+
+  padding: 50px 20px;
+
+  color: var(--muted);
+}
+
+.workspace-placeholder h3 {
+  margin-top: 0;
+
+  color: var(--text);
+}
+
+
+/* FOOTER */
+
+footer {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 30px 20px;
+
+  border-top:
+    1px solid #1d2932;
+
+  color: #657887;
+
+  font-size: 12px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .connection-status {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .container {
+    padding:
+      40px 18px
+      50px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .user-area {
+    justify-content: flex-start;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+}
